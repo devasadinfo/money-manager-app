@@ -15,6 +15,32 @@ String note = "some cost";
 String type = "Income";
 DateTime selectedDate = DateTime.now();
 
+List<String> months = [
+  "Jan",
+  "Feb",
+  "Mar",
+  "Apr",
+  "May",
+  "Jun",
+  "Jul",
+  "Aug",
+  "Sep",
+  "Nov",
+  "Dec"
+];
+
+Future<void> _selectDate(BuildContext context) async {
+  final DateTime? picked = await showDatePicker(
+    context: context,
+    initialDate: selectedDate,
+    firstDate: DateTime(2010, 12),
+    lastDate: DateTime(2030, 01),
+  );
+  if (picked != null && picked != selectedDate) {
+    selectedDate = picked;
+  }
+}
+
 class _HomePageState extends State<AddTransaction> {
   @override
   Widget build(BuildContext context) {
@@ -162,7 +188,6 @@ class _HomePageState extends State<AddTransaction> {
                   if (value) {
                     setState(() {
                       type = "Expense";
-                      print("asad");
                     });
                   }
                 },
@@ -175,7 +200,9 @@ class _HomePageState extends State<AddTransaction> {
           SizedBox(
             height: 50,
             child: TextButton(
-              onPressed: () {},
+              onPressed: () {
+                _selectDate(context);
+              },
               child: Row(
                 children: [
                   Container(
@@ -190,7 +217,10 @@ class _HomePageState extends State<AddTransaction> {
                       color: Colors.white,
                     ),
                   ),
-                  Text("$selectedDate.day"),
+                  SizedBox(
+                    width: 12,
+                  ),
+                  Text("${selectedDate.day} ${months[selectedDate.month - 1]}"),
                 ],
               ),
             ),
@@ -201,7 +231,12 @@ class _HomePageState extends State<AddTransaction> {
           SizedBox(
             height: 50,
             child: ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                print(ammount);
+                print(note);
+                print(type);
+                print(selectedDate);
+              },
               child: Text(
                 "Add",
                 style: TextStyle(
